@@ -1,0 +1,17 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #0b3b36;
+    --bg-color: #FAFAFA;
+    --text-dark: #303635;
+    --text-muted: #666666;
+
+    --font-inter: "Inter", sans-serif;
+    --font-roslindale: "Roslindale", sans-serif;
+}

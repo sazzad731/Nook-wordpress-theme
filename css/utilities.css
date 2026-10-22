@@ -1,0 +1,73 @@
+body {
+    color: var(--text-dark);
+    font-family: var(--font-primary);
+    line-height: 1.6;
+}
+
+img {
+    display: block;
+}
+
+.nook-container{
+    max-width: 1300px;
+    width: 100%;
+    margin: 0px auto;
+}
+
+
+
+.nook-font-inter{
+    font-family: var(--font-inter);
+}
+.nook-font-ros{
+    font-family: var(--font-roslindale);
+}
+
+.nook-font-400{
+    font-weight: 400;
+}
+.nook-font-500{
+    font-weight: 500;
+}
+.nook-font-600{
+    font-weight: 600;
+}
+.nook-font-700{
+    font-weight: 700;
+}
+
+
+
+
+
+.nook-flex{
+    display: flex;
+}
+.nook-align-center{
+    align-items: center;
+}
+.nook-justify-between{
+    justify-content: space-between;
+}
+
+
+
+
+
+
+/*====
+   gap
+======*/
+.nook-gap-24px{
+    gap: 24px;
+}
+
+
+
+
+/*=======
+  padding
+==========*/
+.nook-pt-24px{
+    padding-top: 24px;
+}
