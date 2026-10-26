@@ -10,7 +10,13 @@
     --primary-color: #0b3b36;
     --bg-color: #FAFAFA;
     --text-dark: #303635;
-    --text-muted: #666666;
+    --text-muted: #5F6060;
+    --text-muted-2: #6D7373;
+    --text-muted-3: #414141;
+    --text-muted-4: #888888;
+    --color-white: #FFFFFF;
+    --color-white-2: #F7F8F7;
+    --color-white-3: #F4F5F5;
 
     --font-inter: "Inter", sans-serif;
     --font-roslindale: "Roslindale", sans-serif;

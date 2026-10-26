@@ -106,9 +106,54 @@ Header section
 
 
 
+
+
+
 /* ============
  Hero section 
  ==============*/
+.hero-section {
+    background-color: var(--bg-color);
+    background-repeat: no-repeat;
+    background-position: 50% 10%;
+}
+
+.hero-h1{
+    max-width: 846px;
+    margin: 0px auto 40px auto;
+}
+
+.hero-subtitle{
+    max-width: 429px;
+    margin: 0px auto;
+}
+
+
+.hero-left-card-title{
+    max-width: 207px;
+}
+
+.hero-play-icon{
+    width: 28px;
+    height: 28px;
+}
+
+.center-img-badge{
+    margin-bottom: -100px;
+    position: relative;
+    z-index: 1;
+}
+
+.right-card-title{
+    max-width: 197px;
+}
+
+
+
+
+
+
+
 
 
 

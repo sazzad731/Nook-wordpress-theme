@@ -8,13 +8,94 @@ img {
     display: block;
 }
 
+ul li{
+    list-style-type: none;
+}
+
 .nook-container{
     max-width: 1300px;
     width: 100%;
     margin: 0px auto;
 }
 
+.nook-text-center{
+    text-align: center;
+}
 
+
+.nook-section-title {
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 130%;
+    color: var(--text-dark);
+    text-align: center;
+}
+
+.nook-relative {
+    position: relative;
+}
+
+
+.nook-absolute {
+    position: absolute;
+}
+
+.nook-overflow-hidden {
+    overflow: hidden;
+}
+
+.nook-flip {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+
+.nook-btn-outline {
+    border: 1px solid #F4F5F5;
+    background-color: transparent;
+    color: #F4F5F5;
+    cursor: pointer;
+    line-height: 32px;
+    transition: all 0.5s ease;
+    padding: 15px 60px;
+
+    &:hover {
+        background-color: #F4F5F5;
+        color: var(--nook-primary-color);
+    }
+}
+
+
+.nook-btn-fill {
+    background-color: var(--nook-secondary-text);
+    color: #F7F7F7;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 15px 60px;
+    line-height: 32px;
+    transition: all .5s ease;
+
+
+    &:hover {
+        background-color: var(--nook-secondary-text-hover);
+    }
+}
+
+.nook-width-100{
+    width: 100%;
+}
+
+.nook-margin-0px-auto{
+    margin: 0px auto;
+}
+
+
+
+
+/* ###########
+ common css 
+############## */
 
 .nook-font-inter{
     font-family: var(--font-inter);
@@ -40,16 +121,89 @@ img {
 
 
 
+/*==========
+  Font size
+============*/
+.nook-font-64px{
+    font-size: clamp(42px, calc(33.048px + 2.381vw), 64px);
+}
+
+.nook-font-16px {
+    font-size: clamp(14px, calc(13.186px + 0.216vw), 16px);;
+}
+
+
+.nook-font-18px {
+    font-size: clamp(16px, calc(15.186px + 0.216vw), 18px);
+}
+
+
+.nook-font-20px {
+    font-size: clamp(18px, calc(17.186px + 0.216vw), 20px);
+}
+
+
+.nook-font-22px {
+    font-size: clamp(20px, 4.70vw, 22px);
+}
+
+
+.nook-font-24px {
+    font-size: clamp(22px, 2.86vw, 24px);
+}
+
+
+
+
+/*============
+  line height
+==============*/
+.nook-line-130{
+    line-height: 130%;
+}
+.nook-line-120{
+    line-height: 120%;
+}
+.nook-line-29px{
+    line-height: 29px;
+}
+
+
+
+
+
+/*=========
+flex box
+===========*/
 .nook-flex{
     display: flex;
+}
+.nook-align-start {
+    align-items: start;
 }
 .nook-align-center{
     align-items: center;
 }
+.nook-align-end {
+    align-items: end;
+}
 .nook-justify-between{
     justify-content: space-between;
 }
+.nook-flex-col {
+    flex-direction: column;
+}
 
+.nook-flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nook-flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
 
 
@@ -61,6 +215,9 @@ img {
 .nook-gap-24px{
     gap: 24px;
 }
+.nook-gap-16px{
+    gap: 16px;
+}
 
 
 
@@ -70,4 +227,37 @@ img {
 ==========*/
 .nook-pt-24px{
     padding-top: 24px;
+}
+
+
+
+
+
+
+/*========
+  margin
+=========*/
+.nook-mb-40px{
+    margin-bottom: 40px;
+}
+.nook-mb-20px{
+    margin-bottom: 20px;
+}
+
+
+
+
+
+
+/*===========
+text color
+=============*/
+.nook-color-dark{
+    color: var(--text-dark);
+}
+.nook-color-muted{
+    color: var(--text-muted);
+}
+.nook-color-white{
+    color: var(--color-white);
 }

@@ -3,3 +3,15 @@
         padding: 0px 16px;
     }
 }
+
+
+@media screen and (max-width: 768px) {
+    .hero-images{
+        flex-direction: column;
+    }
+    .hero-left-card,
+    .hero-center-img-container,
+    .hero-right-card{
+        width: 100%;
+    }
+}

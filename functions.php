@@ -250,6 +250,15 @@ function nook_hero_customize_register($wp_customize){
         'priority' => 32,
     ));
 
+    // Hero background image
+    $wp_customize->add_setting('hero_bg_image', array('default' => '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_bg_image', array(
+        'label' => 'Hero Background Image',
+        'section' => 'nook_hero_section',
+        'settings' => 'hero_bg_image'
+    )));
+
+
     // Hero title
     $wp_customize->add_setting('nook_hero_title', array(
         'default' => "Make your environment minimalistic and futuristic",
@@ -273,5 +282,67 @@ function nook_hero_customize_register($wp_customize){
         'section' => 'nook_hero_section',
         'type' => 'textarea',
     ));
+
+
+    // --- LEFT CARD SETTINGS ---
+    $wp_customize->add_setting('hero_left_card_img', array('default'=> '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_left_card_img', array(
+        'label' => __('Left Card Image', 'nook'),
+        'section' => 'nook_hero_section',
+        'settings' => 'hero_left_card_img',
+    )));
+
+    $wp_customize->add_setting('hero_left_card_title', array('default' => 'Minimal Desk', 'sanitize_callback' => 'sanitize_text_field'));
+    $wp_customize->add_control('hero_left_card_title', array(
+        'label' => __('Left Card Title', 'nook'),
+        'section' => 'nook_hero_section',
+        'type' => 'text',
+    ));
+
+    $wp_customize->add_setting('hero_left_card_title_icon', array('default' => '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_left_card_title_icon', array(
+        'label' => __('Left Card Play Icon', 'nook'),
+        'section' => 'nook_hero_section',
+        'settings' => 'hero_left_card_title_icon'
+    )));
+
+
+    // --- CENTER CARD SETTINGS ---
+    $wp_customize->add_setting('hero_center_img', array('default'=> '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_center_img', array(
+        'label' => __('Center Main Image', 'nook'),
+        'section' => 'nook_hero_section',
+        'settings' => 'hero_center_img',
+    )));
+
+    $wp_customize->add_setting('hero_center_img_badge', array('default'=> '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_center_img_badge', array(
+        'label' => __('Center Main Image Badge', 'nook'),
+        'section' => 'nook_hero_section',
+        'settings' => 'hero_center_img_badge',
+    )));
+
+
+    // --- RIGHT CARD SETTINGS ---
+    $wp_customize->add_setting('hero_right_card_img', array('default' => '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_right_card_img', array(
+        'label' => __('Right Card Image', 'nook'),
+        'section' => 'nook_hero_section',
+        'settings' => 'hero_right_card_img',
+    )));
+
+    $wp_customize->add_setting('hero_right_card_title', array('default' => 'Minimal Desk', 'sanitize_callback' => 'sanitize_text_field'));
+    $wp_customize->add_control('hero_right_card_title', array(
+        'label' => __('Right Card Title', 'nook'),
+        'section' => 'nook_hero_section',
+        'type' => 'text',
+    ));
+
+    $wp_customize->add_setting('hero_right_card_title_icon', array('default' => '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_right_card_title_icon', array(
+        'label' => __('Right Card Play Icon', 'nook'),
+        'section' => 'nook_hero_section',
+        'settings' => 'hero_right_card_title_icon'
+    )));
 }
 add_action('customize_register', 'nook_hero_customize_register');
