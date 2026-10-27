@@ -30,6 +30,7 @@
 
 
             <div class="nook-flex-between nook-gap-16px hero-images">
+                <!-- left card -->
                 <div class="nook-overflow-hidden hero-left-card">
                     <img class="nook-width-100 nook-mb-20px" src="<?php echo esc_url($left_img); ?>" alt="<?php echo esc_attr($left_title); ?>">
                     <div class="nook-flex nook-justify-between nook-gap-24px">
@@ -37,18 +38,45 @@
                         <img class="hero-play-icon" src="<?php echo esc_url($left_icon); ?>" alt="play icon">
                     </div>
                 </div>
+
+                <!-- middle image -->
                 <div class="hero-center-img-container">
                     <img class="nook-margin-0px-auto center-img-badge" src="<?php echo esc_url($center_img_badge); ?>" alt="seal">
                     <img class="nook-width-100" src="<?php echo esc_url($center_img) ?>" alt="Furniture image">
                 </div>
+
+                <!-- right card -->
                 <div class="nook-overflow-hidden hero-right-card">
                     <img class="nook-width-100 nook-mb-20px" src="<?php echo esc_url($right_card_img); ?>" alt="<?php echo esc_attr($right_card_title) ?>">
                     <div class="nook-flex nook-justify-between">
-                        <p class="nook-font-400 nook-font-24px right-card-title"><?php echo esc_html($right_card_title); ?></p>
+                        <p class="nook-font-400 nook-font-24px nook-line-32px right-card-title"><?php echo esc_html($right_card_title); ?></p>
                         <img class="hero-play-icon" src="<?php echo esc_url($right_card_title_icon); ?>" alt="music play icon">
                     </div>
                 </div>
             </div>
+    </section>
+
+    <!-- Marquee section -->
+    <section class="nook-mb-100px nook-marquee-section">
+        <div class="marquee-track">
+            <?php
+            $brand_string = get_theme_mod('marquee_text', 'Accent Table | Dining Table | Organic Fabrics | Vinbrande Couch | Minimalist Chair | Modern Decor');
+            $star_icon = get_theme_mod('marquee_icon');
+            $brand_array = explode('|', $brand_string);
+
+            for ($i = 0; $i < 3; $i++) {
+                echo '<div class="marquee-group">';
+                foreach ($brand_array as $brand) {
+                    $trimmed_brand = trim($brand);
+                    if (!empty($trimmed_brand)) {
+                        echo '<span class="nook-font-ros nook-font-500 nook-font-22px nook-line-20px marquee-item">' . esc_html($trimmed_brand) . '</span>';
+                        echo '<img src="' . esc_url($star_icon) . '" alt="' . esc_html($trimmed_brand) . '" class="marquee-icon">';
+                    }
+                }
+                echo '</div>';
+            }
+            ?>
+        </div>
     </section>
 </main>
 

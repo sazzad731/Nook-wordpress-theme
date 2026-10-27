@@ -44,6 +44,15 @@ function nook_enqueue_styles(){
 add_action('wp_enqueue_scripts', 'nook_enqueue_styles');
 
 
+// swiper cdn
+function nook_swiper_assets(){
+    wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
+
+    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
+}
+add_action('wp_enqueue_scripts', 'nook_swiper_assets');
+
+
 function nook_setup_theme(){
     register_nav_menus(array(
         'primary-menu' => __('Primary Menu', 'nook'),
@@ -346,3 +355,39 @@ function nook_hero_customize_register($wp_customize){
     )));
 }
 add_action('customize_register', 'nook_hero_customize_register');
+
+
+
+
+
+function nook_marquee_customize_register($wp_customize){
+    $wp_customize->add_section('marquee_section', array(
+        'title' => __('Marquee Section', 'nook'),
+        'priority' => 33,
+    ));
+
+    // text field
+    $wp_customize->add_setting('marquee_text', array(
+        'default' => 'Accent Table | Dining Table | Organic Fabrics | Vintage Couch | Minimalist Chair | Modern Decor',
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+    $wp_customize->add_control('marquee_text', array(
+        'label' => __('Text List (Separate with | )', 'nook'),
+        'description' => __('Use (|) symbol in the middle of every word. This (|) symbol will be auto replaced by your icon'),
+        'section' => 'marquee_section',
+        'type' => 'textarea',
+    ));
+
+    // icon field
+    $wp_customize->add_setting('marquee_icon', array(
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw'
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'marquee_icon', array(
+        'label' => "Marquee Icon",
+        'section' => 'marquee_section',
+        'settings' => 'marquee_icon'
+    )));
+}
+add_action('customize_register', 'nook_marquee_customize_register');

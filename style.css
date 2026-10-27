@@ -154,6 +154,61 @@ Header section
 
 
 
+/* Marquee Section Styling */
+.nook-marquee-section {
+    overflow: hidden;
+    width: 100%;
+    border-bottom: 1px solid var(--text-muted-2);
+    padding: 24px 0;
+    white-space: nowrap;
+    display: flex;
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marqueeScroll 30s linear infinite;
+}
+
+.marquee-group {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-right: 24px;
+}
+
+.marquee-item {
+    text-transform: capitalize;
+    color: var(--text-muted-2);
+}
+
+.marquee-icon {
+    width: 35px;
+    height: 35px;
+}
+
+/* Pause animation on hover */
+.nook-marquee-section:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+/* Infinite Keyframes */
+@keyframes marqueeScroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-33.333%);
+    }
+}
+
+
+
+
+
+
+
 
 
 
