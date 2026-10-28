@@ -1,5 +1,6 @@
 <?php
-function nook_enqueue_styles(){
+function nook_enqueue_styles()
+{
     wp_enqueue_style(
         'nook-variables',
         get_template_directory_uri() . '/css/variables.css',
@@ -45,7 +46,8 @@ add_action('wp_enqueue_scripts', 'nook_enqueue_styles');
 
 
 // swiper cdn
-function nook_swiper_assets(){
+function nook_swiper_assets()
+{
     wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
 
     wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
@@ -53,7 +55,8 @@ function nook_swiper_assets(){
 add_action('wp_enqueue_scripts', 'nook_swiper_assets');
 
 
-function nook_setup_theme(){
+function nook_setup_theme()
+{
     register_nav_menus(array(
         'primary-menu' => __('Primary Menu', 'nook'),
     ));
@@ -69,7 +72,8 @@ function nook_setup_theme(){
 add_action('after_setup_theme', 'nook_setup_theme');
 
 
-function nook_customize_register($wp_customize){
+function nook_customize_register($wp_customize)
+{
     $wp_customize->add_section('nook_header_icons_section', array(
         'title'    => __('Header Icons', 'nook'),
         'priority' => 30,
@@ -123,7 +127,8 @@ add_action('customize_register', 'nook_customize_register');
 
 
 
-function nook_font_customize_register($wp_customize){
+function nook_font_customize_register($wp_customize)
+{
     // 1. Typography Section
     $wp_customize->add_section('nook_typography_section', array(
         'title'    => __('Typography / Fonts', 'nook'),
@@ -190,7 +195,8 @@ function nook_font_customize_register($wp_customize){
 }
 add_action('customize_register', 'nook_font_customize_register');
 
-function nook_apply_dynamic_fonts(){
+function nook_apply_dynamic_fonts()
+{
     $google_font      = get_theme_mod('nook_google_font');
     $custom_font_name = get_theme_mod('nook_custom_font_family');
 
@@ -242,7 +248,8 @@ function nook_apply_dynamic_fonts(){
 add_action('wp_enqueue_scripts', 'nook_apply_dynamic_fonts', 20);
 
 
-function nook_allow_font_uploads($mimes){
+function nook_allow_font_uploads($mimes)
+{
     $mimes['woff']  = 'font/woff';
     $mimes['woff2'] = 'font/woff2';
     $mimes['ttf']   = 'application/x-font-ttf';
@@ -252,7 +259,8 @@ add_filter('upload_mimes', 'nook_allow_font_uploads');
 
 
 
-function nook_hero_customize_register($wp_customize){
+function nook_hero_customize_register($wp_customize)
+{
     //hero section
     $wp_customize->add_section('nook_hero_section', array(
         'title' => __('Hero Section', 'nook'),
@@ -294,7 +302,7 @@ function nook_hero_customize_register($wp_customize){
 
 
     // --- LEFT CARD SETTINGS ---
-    $wp_customize->add_setting('hero_left_card_img', array('default'=> '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_setting('hero_left_card_img', array('default' => '', 'sanitize_callback' => 'esc_url_raw'));
     $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_left_card_img', array(
         'label' => __('Left Card Image', 'nook'),
         'section' => 'nook_hero_section',
@@ -317,14 +325,14 @@ function nook_hero_customize_register($wp_customize){
 
 
     // --- CENTER CARD SETTINGS ---
-    $wp_customize->add_setting('hero_center_img', array('default'=> '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_setting('hero_center_img', array('default' => '', 'sanitize_callback' => 'esc_url_raw'));
     $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_center_img', array(
         'label' => __('Center Main Image', 'nook'),
         'section' => 'nook_hero_section',
         'settings' => 'hero_center_img',
     )));
 
-    $wp_customize->add_setting('hero_center_img_badge', array('default'=> '', 'sanitize_callback' => 'esc_url_raw'));
+    $wp_customize->add_setting('hero_center_img_badge', array('default' => '', 'sanitize_callback' => 'esc_url_raw'));
     $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_center_img_badge', array(
         'label' => __('Center Main Image Badge', 'nook'),
         'section' => 'nook_hero_section',
@@ -360,7 +368,8 @@ add_action('customize_register', 'nook_hero_customize_register');
 
 
 
-function nook_marquee_customize_register($wp_customize){
+function nook_marquee_customize_register($wp_customize)
+{
     $wp_customize->add_section('marquee_section', array(
         'title' => __('Marquee Section', 'nook'),
         'priority' => 33,
@@ -391,3 +400,169 @@ function nook_marquee_customize_register($wp_customize){
     )));
 }
 add_action('customize_register', 'nook_marquee_customize_register');
+
+
+
+
+
+
+
+function nook_slider_customize_register($wp_customize){
+    if (! class_exists('WP_Customize_Control')) return;
+
+    class Nook_Slider_Repeater_Control extends WP_Customize_Control
+    {
+        public $type = 'nook_slider_repeater';
+
+        public function enqueue()
+        {
+            // Needed media library script for image upload
+            wp_enqueue_media();
+        }
+
+        public function render_content()
+        {
+            $values = json_decode($this->value(), true);
+            if (! is_array($values)) {
+                $values = array();
+            }
+?>
+            <label>
+                <span class="customize-control-title"><?php echo esc_html($this->label); ?></span>
+                <span class="description customize-control-description"><?php echo esc_html($this->description); ?></span>
+            </label>
+
+            <div class="nook-repeater-container">
+                <div class="nook-repeater-items">
+                    <?php
+                    if (! empty($values)) {
+                        foreach ($values as $index => $item) {
+                            $img_url = isset($item['image']) ? $item['image'] : '';
+                            $title   = isset($item['title']) ? $item['title'] : '';
+                    ?>
+                            <div class="nook-repeater-item" style="background: #fff; border: 1px solid #ccc; padding: 12px; margin-bottom: 10px; border-radius: 4px;">
+                                <div style="margin-bottom: 8px;">
+                                    <label><strong>Slide Image</strong></label>
+                                    <input type="hidden" class="nook-slide-img-url" value="<?php echo esc_attr($img_url); ?>">
+                                    <div class="nook-img-preview" style="margin: 5px 0;">
+                                        <?php if ($img_url): ?>
+                                            <img src="<?php echo esc_url($img_url); ?>" style="max-width: 100px; height: auto; display: block; border-radius: 4px;">
+                                        <?php endif; ?>
+                                    </div>
+                                    <button type="button" class="button nook-upload-img-btn"><?php echo $img_url ? 'Change Image' : 'Upload Image'; ?></button>
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    <label><strong>Slide Title</strong></label>
+                                    <input type="text" class="nook-slide-title-input" value="<?php echo esc_attr($title); ?>" style="width: 100%;">
+                                </div>
+                                <button type="button" class="button button-link-delete nook-remove-item" style="color: red;">Remove Slide</button>
+                            </div>
+                    <?php
+                        }
+                    }
+                    ?>
+                </div>
+
+                <!-- Add Slide Button -->
+                <button type="button" class="button button-primary" id="nook-add-slide-btn">+ Add Slide</button>
+                <input type="hidden" id="<?php echo esc_attr($this->id); ?>" name="<?php echo esc_attr($this->id); ?>" value="<?php echo esc_attr($this->value()); ?>" <?php $this->link(); ?>>
+            </div>
+
+            <!-- JavaScript for Customizer Media Upload & Repeat Logic -->
+            <script>
+                jQuery(document).ready(function($) {
+                    function updateRepeaterValue() {
+                        var slides = [];
+                        $('.nook-repeater-item').each(function() {
+                            var img = $(this).find('.nook-slide-img-url').val();
+                            var title = $(this).find('.nook-slide-title-input').val();
+                            if (img || title) {
+                                slides.push({
+                                    image: img,
+                                    title: title
+                                });
+                            }
+                        });
+                        $('#<?php echo esc_attr($this->id); ?>').val(JSON.stringify(slides)).trigger('change');
+                    }
+
+                    // Add Slide Click
+                    $('#nook-add-slide-btn').on('click', function() {
+                        var newItem = `
+                        <div class="nook-repeater-item" style="background: #fff; border: 1px solid #ccc; padding: 12px; margin-bottom: 10px; border-radius: 4px;">
+                            <div style="margin-bottom: 8px;">
+                                <label><strong>Slide Image</strong></label>
+                                <input type="hidden" class="nook-slide-img-url" value="">
+                                <div class="nook-img-preview" style="margin: 5px 0;"></div>
+                                <button type="button" class="button nook-upload-img-btn">Upload Image</button>
+                            </div>
+                            <div style="margin-bottom: 8px;">
+                                <label><strong>Slide Title</strong></label>
+                                <input type="text" class="nook-slide-title-input" value="" style="width: 100%;">
+                            </div>
+                            <button type="button" class="button button-link-delete nook-remove-item" style="color: red;">Remove Slide</button>
+                        </div>`;
+                        $('.nook-repeater-items').append(newItem);
+                        updateRepeaterValue();
+                    });
+
+                    // Remove Slide
+                    $(document).on('click', '.nook-remove-item', function() {
+                        $(this).closest('.nook-repeater-item').remove();
+                        updateRepeaterValue();
+                    });
+
+                    // Title Input Change
+                    $(document).on('keyup change', '.nook-slide-title-input', function() {
+                        updateRepeaterValue();
+                    });
+
+                    // Media Frame Image Upload
+                    $(document).on('click', '.nook-upload-img-btn', function(e) {
+                        e.preventDefault();
+                        var button = $(this);
+                        var item = button.closest('.nook-repeater-item');
+
+                        var frame = wp.media({
+                            title: 'Select Slide Image',
+                            button: {
+                                text: 'Use this image'
+                            },
+                            multiple: false
+                        });
+
+                        frame.on('select', function() {
+                            var attachment = frame.state().get('selection').first().toJSON();
+                            item.find('.nook-slide-img-url').val(attachment.url);
+                            item.find('.nook-img-preview').html('<img src="' + attachment.url + '" style="max-width: 100px; height: auto; display: block; border-radius: 4px;">');
+                            button.text('Change Image');
+                            updateRepeaterValue();
+                        });
+
+                        frame.open();
+                    });
+                });
+            </script>
+<?php
+        }
+    }
+
+
+    $wp_customize->add_section('slider_section', array(
+        'title'    => __('Slider Section', 'nook'),
+        'priority' => 34,
+    ));
+
+
+    $wp_customize->add_setting('nook_slides_repeater_data', array(
+        'default'           => '[]',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+    $wp_customize->add_control(new Nook_Slider_Repeater_Control($wp_customize, 'nook_slides_repeater_data', array(
+        'label'       => __('Category Slides', 'nook'),
+        'description' => __('"Add Slide" button-e click kore ekaadhik slide add korun.', 'nook'),
+        'section'     => 'slider_section',
+    )));
+}
+add_action('customize_register', 'nook_slider_customize_register');

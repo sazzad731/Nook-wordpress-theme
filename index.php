@@ -78,6 +78,51 @@
             ?>
         </div>
     </section>
+
+
+    <!-- Dynamic Swiper Slider Section -->
+    <section class="nook-slider-section">
+        <div class="nook-container">
+            <?php
+            $slider_title = get_theme_mod('slider_title');
+            if (!empty($slider_title)) {
+                echo '<h2 class="slider-section-heading">' . esc_html($slider_title) . '</h2>';
+            }
+            ?>
+
+            <!-- Swiper Container -->
+            <div class="swiper nookCategorySwiper">
+                <div class="swiper-wrapper">
+                    <?php
+                    $slides_json = get_theme_mod('nook_slides_repeater_data', '[]');
+                    $slides = json_decode($slides_json, true);
+
+                    if (!empty($slides) && is_array($slides)) {
+                        foreach ($slides as $slide) {
+                            $img   = isset($slide['image']) ? $slide['image'] : '';
+                            $title = isset($slide['title']) ? $slide['title'] : '';
+
+                            if (!empty($img) || !empty($title)) {
+                                echo '<div class="swiper-slide">';
+                                echo '<div class="slide-card">';
+                                if (!empty($img)) {
+                                    echo '<div class="slide-img-wrap"><img src="' . esc_url($img) . '" alt="' . esc_attr($title) . '"></div>';
+                                }
+                                if (!empty($title)) {
+                                    echo '<h3>' . esc_html($title) . '</h3>';
+                                }
+                                echo '</div>';
+                                echo '</div>';
+                            }
+                        }
+                    }
+                    ?>
+                </div>
+                <!-- Swiper Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
 </main>
 
 

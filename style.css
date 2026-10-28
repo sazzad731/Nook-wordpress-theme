@@ -210,8 +210,59 @@ Header section
 
 
 
-
-
 /* =============
-Category Tags 
+Slider
 ================*/
+
+/* Swiper Slider Section Styling */
+.nook-slider-section {
+    padding: 60px 0;
+    background-color: var(--nook-bg-color, #faf9f6);
+}
+
+.slider-section-heading {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: var(--nook-text-dark, #1a1a1a);
+}
+
+.nookCategorySwiper {
+    padding-bottom: 40px !important;
+}
+
+.slide-card {
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s ease;
+}
+
+.slide-card:hover {
+    transform: translateY(-5px);
+}
+
+.slide-img-wrap {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.slide-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.slide-card h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--nook-text-dark, #1a1a1a);
+    margin: 0;
+}
