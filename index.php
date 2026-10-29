@@ -123,6 +123,60 @@
             </div>
         </div>
     </section>
+
+
+
+    <!-- Popular Collection Section -->
+    <section class="popular-collection-section">
+        <div class="nook-container">
+            <?php
+            $pop_title = get_theme_mod('nook_popular_title', 'Popular Collection');
+            if (!empty($pop_title)) {
+                echo '<h2 class="popular-section-heading">' . esc_html($pop_title) . '</h2>';
+            }
+            ?>
+
+            <!-- Filter Tabs -->
+            <div class="collection-tabs">
+                <button class="tab-btn active" data-filter="all">All</button>
+                <button class="tab-btn" data-filter="sofa">Sofa</button>
+                <button class="tab-btn" data-filter="chair">Chair</button>
+                <button class="tab-btn" data-filter="table">Table</button>
+                <button class="tab-btn" data-filter="accessories">Accessories</button>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="popular-products-grid">
+                <?php
+                $products_json = get_theme_mod('nook_popular_products_data', '[]');
+                $products = json_decode($products_json, true);
+
+                if (!empty($products) && is_array($products)) {
+                    foreach ($products as $prod) {
+                        $img   = isset($prod['image']) ? $prod['image'] : '';
+                        $title = isset($prod['title']) ? $prod['title'] : '';
+                        $price = isset($prod['price']) ? $prod['price'] : '';
+                        $cat   = isset($prod['category']) ? strtolower(trim($prod['category'])) : 'sofa';
+
+                        echo '<div class="product-card" data-category="' . esc_attr($cat) . '">';
+                        if (!empty($img)) {
+                            echo '<div class="product-img-wrap"><img src="' . esc_url($img) . '" alt="' . esc_attr($title) . '"></div>';
+                        }
+                        echo '<div class="product-info">';
+                        if (!empty($title)) {
+                            echo '<h3>' . esc_html($title) . '</h3>';
+                        }
+                        if (!empty($price)) {
+                            echo '<p class="product-price">' . esc_html($price) . '</p>';
+                        }
+                        echo '</div>';
+                        echo '</div>';
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    </section>
 </main>
 
 

@@ -407,7 +407,8 @@ add_action('customize_register', 'nook_marquee_customize_register');
 
 
 
-function nook_slider_customize_register($wp_customize){
+function nook_slider_customize_register($wp_customize)
+{
     if (! class_exists('WP_Customize_Control')) return;
 
     class Nook_Slider_Repeater_Control extends WP_Customize_Control
@@ -543,7 +544,7 @@ function nook_slider_customize_register($wp_customize){
                     });
                 });
             </script>
-<?php
+        <?php
         }
     }
 
@@ -566,3 +567,195 @@ function nook_slider_customize_register($wp_customize){
     )));
 }
 add_action('customize_register', 'nook_slider_customize_register');
+
+
+
+
+
+
+// 1. Popular Collection Repeater Custom Control
+if (class_exists('WP_Customize_Control')) {
+    class Nook_Popular_Repeater_Control extends WP_Customize_Control
+    {
+        public $type = 'nook_popular_repeater';
+
+        public function enqueue()
+        {
+            wp_enqueue_media();
+        }
+
+        public function render_content()
+        {
+            $values = json_decode($this->value(), true);
+            if (! is_array($values)) {
+                $values = array();
+            }
+        ?>
+            <label>
+                <span class="customize-control-title"><?php echo esc_html($this->label); ?></span>
+                <span class="description customize-control-description"><?php echo esc_html($this->description); ?></span>
+            </label>
+
+            <div class="nook-popular-repeater-container">
+                <div class="nook-popular-items">
+                    <?php
+                    if (! empty($values)) {
+                        foreach ($values as $item) {
+                            $img   = isset($item['image']) ? $item['image'] : '';
+                            $title = isset($item['title']) ? $item['title'] : '';
+                            $price = isset($item['price']) ? $item['price'] : '';
+                            $cat   = isset($item['category']) ? $item['category'] : 'sofa';
+                    ?>
+                            <div class="nook-popular-item" style="background: #fff; border: 1px solid #ccc; padding: 12px; margin-bottom: 10px; border-radius: 4px;">
+                                <div style="margin-bottom: 8px;">
+                                    <label><strong>Product Image</strong></label>
+                                    <input type="hidden" class="pop-img-url" value="<?php echo esc_attr($img); ?>">
+                                    <div class="pop-img-preview" style="margin: 5px 0;">
+                                        <?php if ($img): ?>
+                                            <img src="<?php echo esc_url($img); ?>" style="max-width: 80px; height: auto; display: block; border-radius: 4px;">
+                                        <?php endif; ?>
+                                    </div>
+                                    <button type="button" class="button pop-upload-btn"><?php echo $img ? 'Change Image' : 'Upload Image'; ?></button>
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    <label><strong>Product Title</strong></label>
+                                    <input type="text" class="pop-title-input" value="<?php echo esc_attr($title); ?>" style="width: 100%;">
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    <label><strong>Product Price</strong></label>
+                                    <input type="text" class="pop-price-input" value="<?php echo esc_attr($price); ?>" style="width: 100%;">
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    <label><strong>Category Slug (sofa, chair, table, accessories)</strong></label>
+                                    <input type="text" class="pop-cat-input" value="<?php echo esc_attr($cat); ?>" style="width: 100%;">
+                                </div>
+                                <button type="button" class="button button-link-delete pop-remove-item" style="color: red;">Remove Product</button>
+                            </div>
+                    <?php
+                        }
+                    }
+                    ?>
+                </div>
+
+                <button type="button" class="button button-primary" id="nook-add-popular-btn">+ Add Product</button>
+                <input type="hidden" id="<?php echo esc_attr($this->id); ?>" name="<?php echo esc_attr($this->id); ?>" value="<?php echo esc_attr($this->value()); ?>" <?php $this->link(); ?>>
+            </div>
+
+            <script>
+                jQuery(document).ready(function($) {
+                    function updatePopValue() {
+                        var products = [];
+                        $('.nook-popular-item').each(function() {
+                            var img = $(this).find('.pop-img-url').val();
+                            var title = $(this).find('.pop-title-input').val();
+                            var price = $(this).find('.pop-price-input').val();
+                            var cat = $(this).find('.pop-cat-input').val();
+                            if (img || title) {
+                                products.push({
+                                    image: img,
+                                    title: title,
+                                    price: price,
+                                    category: cat
+                                });
+                            }
+                        });
+                        $('#<?php echo esc_attr($this->id); ?>').val(JSON.stringify(products)).trigger('change');
+                    }
+
+                    $('#nook-add-popular-btn').on('click', function() {
+                        var newItem = `
+                        <div class="nook-popular-item" style="background: #fff; border: 1px solid #ccc; padding: 12px; margin-bottom: 10px; border-radius: 4px;">
+                            <div style="margin-bottom: 8px;">
+                                <label><strong>Product Image</strong></label>
+                                <input type="hidden" class="pop-img-url" value="">
+                                <div class="pop-img-preview" style="margin: 5px 0;"></div>
+                                <button type="button" class="button pop-upload-btn">Upload Image</button>
+                            </div>
+                            <div style="margin-bottom: 8px;">
+                                <label><strong>Product Title</strong></label>
+                                <input type="text" class="pop-title-input" value="" style="width: 100%;">
+                            </div>
+                            <div style="margin-bottom: 8px;">
+                                <label><strong>Product Price</strong></label>
+                                <input type="text" class="pop-price-input" value="" style="width: 100%;">
+                            </div>
+                            <div style="margin-bottom: 8px;">
+                                <label><strong>Category Slug (sofa, chair, table, accessories)</strong></label>
+                                <input type="text" class="pop-cat-input" value="sofa" style="width: 100%;">
+                            </div>
+                            <button type="button" class="button button-link-delete pop-remove-item" style="color: red;">Remove Product</button>
+                        </div>`;
+                        $('.nook-popular-items').append(newItem);
+                        updatePopValue();
+                    });
+
+                    $(document).on('click', '.pop-remove-item', function() {
+                        $(this).closest('.nook-popular-item').remove();
+                        updatePopValue();
+                    });
+
+                    $(document).on('keyup change', '.pop-title-input, .pop-price-input, .pop-cat-input', function() {
+                        updatePopValue();
+                    });
+
+                    $(document).on('click', '.pop-upload-btn', function(e) {
+                        e.preventDefault();
+                        var button = $(this);
+                        var item = button.closest('.nook-popular-item');
+
+                        var frame = wp.media({
+                            title: 'Select Product Image',
+                            button: {
+                                text: 'Use this image'
+                            },
+                            multiple: false
+                        });
+
+                        frame.on('select', function() {
+                            var attachment = frame.state().get('selection').first().toJSON();
+                            item.find('.pop-img-url').val(attachment.url);
+                            item.find('.pop-img-preview').html('<img src="' + attachment.url + '" style="max-width: 80px; height: auto; display: block; border-radius: 4px;">');
+                            button.text('Change Image');
+                            updatePopValue();
+                        });
+
+                        frame.open();
+                    });
+                });
+            </script>
+<?php
+        }
+    }
+}
+
+// 2. Register Customizer Section and Settings
+function nook_popular_customize_register($wp_customize)
+{
+    $wp_customize->add_section('nook_popular_section', array(
+        'title'    => __('Popular Collection Section', 'nook'),
+        'priority' => 35,
+    ));
+
+    $wp_customize->add_setting('nook_popular_title', array(
+        'default'           => 'Popular Collection',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('nook_popular_title', array(
+        'label'   => __('Section Title', 'nook'),
+        'section' => 'nook_popular_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('nook_popular_products_data', array(
+        'default'           => '[]',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+    $wp_customize->add_control(new Nook_Popular_Repeater_Control($wp_customize, 'nook_popular_products_data', array(
+        'label'       => __('Popular Products', 'nook'),
+        'description' => __('Add products with image, title, price and category.', 'nook'),
+        'section'     => 'nook_popular_section',
+    )));
+}
+add_action('customize_register', 'nook_popular_customize_register');

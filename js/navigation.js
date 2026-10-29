@@ -58,3 +58,32 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 });
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const tabBtns = document.querySelectorAll(".collection-tabs .tab-btn");
+  const productCards = document.querySelectorAll(
+    ".popular-products-grid .product-card",
+  );
+
+  tabBtns.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      tabBtns.forEach((b) => b.classList.remove("active"));
+      this.classList.add("active");
+
+      let filter = this.getAttribute("data-filter");
+
+      productCards.forEach((card) => {
+        let category = card.getAttribute("data-category");
+        if (filter === "all" || category === filter) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
+  });
+});
